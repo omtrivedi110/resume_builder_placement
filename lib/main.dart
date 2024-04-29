@@ -4,6 +4,7 @@ import 'package:resume_builder_placement/utils/route_utils.dart';
 import 'package:resume_builder_placement/views/screens/add_resume.dart';
 import 'package:resume_builder_placement/views/screens/home.dart';
 import 'package:resume_builder_placement/views/screens/resume_item_detail.dart';
+import 'package:resume_builder_placement/views/screens/resume_screen.dart';
 import 'package:resume_builder_placement/views/screens/splash_screen.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.home, page: () => HomePage()),
         GetPage(name: MyRoutes.addResume, page: () => AddResume()),
         GetPage(name: MyRoutes.itemDetail, page: () => ResumeItemDetail()),
+        GetPage(name: MyRoutes.resume_screen, page: () => ResumeScreen()),
       ],
     );
   }

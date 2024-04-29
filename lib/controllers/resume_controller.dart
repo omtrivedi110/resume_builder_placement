@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ResumeController extends GetxController {
+  RxString name = ''.obs;
+  RxString role = ''.obs;
   RxList resumeItems = [
     {
       'name': "Skill",

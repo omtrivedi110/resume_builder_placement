@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   get:
   animated_splash_screen:
+  pdf:
+  printing:
 
 dev_dependencies:
   flutter_test:
