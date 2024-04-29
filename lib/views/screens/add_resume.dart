@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:resume_builder_placement/controllers/resume_controller.dart';
 import 'package:resume_builder_placement/modals/resume_item_modal.dart';
 import 'package:resume_builder_placement/utils/route_utils.dart';
@@ -15,6 +17,8 @@ class _AddResumeState extends State<AddResume> {
   ResumeController resumeController = Get.put(ResumeController());
 
   TextEditingController newField = TextEditingController();
+
+  File? tmpImg;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class _AddResumeState extends State<AddResume> {
                                   });
                               Navigator.pop(context);
                             },
-                            child: const Text("Add")),
+                            child: const Text("Add"))
                       ],
                     );
                   });
@@ -60,7 +64,9 @@ class _AddResumeState extends State<AddResume> {
           FloatingActionButton(
             heroTag: '2',
             onPressed: () {
-              Get.toNamed(MyRoutes.resume_screen);
+              resumeController.file == null
+                  ? Get.snackbar("Please Click an Image", "Pick an Image !!")
+                  : Get.toNamed(MyRoutes.resume_screen);
             },
             child: const Icon(Icons.save),
           ),
@@ -74,6 +80,31 @@ class _AddResumeState extends State<AddResume> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+              Stack(
+                children: [
+                  CircleAvatar(
+                    foregroundImage: (resumeController.file == null
+                        ? null
+                        : FileImage(resumeController.file!)),
+                    radius: 60,
+                  ),
+                  Positioned(
+                      left: 85,
+                      top: 60,
+                      child: IconButton(
+                          onPressed: () async {
+                            ImagePicker img = ImagePicker();
+                            XFile? file =
+                                await img.pickImage(source: ImageSource.camera);
+                            file == null
+                                ? null
+                                : resumeController.file = File(file.path);
+                            file == null ? null : tmpImg = File(file.path);
+                          },
+                          icon: const Icon(Icons.camera)))
+                ],
+              ),
+              const SizedBox(height: 10),
               TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -110,13 +141,27 @@ class _AddResumeState extends State<AddResume> {
                           trailing: PopupMenuButton(
                             itemBuilder: (context) => [
                               PopupMenuItem(
-                                  child: const Text("Update"), onTap: () {}),
-                              PopupMenuItem(
                                 child: const Text("Delete"),
                                 onTap: () {
                                   resumeController.deleteResumeItem(
                                       index: index);
                                 },
+                              ),
+                              PopupMenuItem(
+                                onTap: () {
+                                  resumeController.moveUp(index: index);
+                                },
+                                enabled: index != 0,
+                                child: const Text("Move Up"),
+                              ),
+                              PopupMenuItem(
+                                onTap: () {
+                                  resumeController.moveDown(index: index);
+                                },
+                                enabled: index !=
+                                    (resumeController.resumeItems.value.length -
+                                        1),
+                                child: const Text("Move Down"),
                               ),
                             ],
                           ),

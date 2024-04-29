@@ -39,6 +39,7 @@ dependencies:
   animated_splash_screen:
   pdf:
   printing:
+  image_picker:
 
 dev_dependencies:
   flutter_test:

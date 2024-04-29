@@ -25,10 +25,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Your Resume"),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text("Your Resume"), centerTitle: true),
       body: PdfPreview(
         build: (format) => pdf.save(),
       ),
@@ -49,24 +46,52 @@ class _ResumeScreenState extends State<ResumeScreen> {
                       height: double.infinity,
                       color: PdfColors.blue,
                       child: pw.Column(children: [
+                        pw.SizedBox(height: 10),
+                        pw.Container(
+                            height: 100,
+                            width: 100,
+                            decoration: pw.BoxDecoration(
+                              shape: pw.BoxShape.circle,
+                              image: pw.DecorationImage(
+                                  image: pw.MemoryImage(resumeController.file!
+                                      .readAsBytesSync())),
+                            )),
+                        pw.SizedBox(height: 15),
                         pw.Text(resumeController.name.value,
-                            style: pw.TextStyle(
+                            style: const pw.TextStyle(
                                 fontSize: 20, color: PdfColors.white)),
+                        pw.SizedBox(height: 10),
                         pw.Text(resumeController.role.value,
-                            style: pw.TextStyle(
+                            style: const pw.TextStyle(
                                 fontSize: 16, color: PdfColors.white)),
                       ]))),
               pw.Expanded(
-                  flex: 2,
+                flex: 2,
+                child: pw.Padding(
+                  padding: const pw.EdgeInsets.only(left: 20),
                   child: pw.Column(
-                    children: resumeController.resumeItems.value.map((element) {
-                      return pw.Column(children: [
-                        pw.Text(element['name'],
-                            style: pw.TextStyle(fontSize: 18)),
-                        ...element['item'].map((e) => pw.Text("* $e")).toList(),
-                      ]);
-                    }).toList(),
-                  )),
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      ...resumeController.resumeItems.value.map((element) {
+                        return pw.Column(children: [
+                          pw.SizedBox(height: 15),
+                          pw.Text(
+                            element['name'],
+                            style: const pw.TextStyle(
+                                fontSize: 22,
+                                decoration: pw.TextDecoration.underline),
+                          ),
+                          pw.SizedBox(height: 7),
+                          ...element['item']
+                              .map((e) => pw.Text("* $e",
+                                  style: const pw.TextStyle(fontSize: 18)))
+                              .toList(),
+                        ]);
+                      }).toList(),
+                    ],
+                  ),
+                ),
+              ),
             ]),
           );
         }));
