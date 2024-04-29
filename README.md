@@ -19,6 +19,15 @@ This is a simple resume builder app built using Flutter. It allows users to crea
 
 ## Video
 
+
+
+https://github.com/omtrivedi110/resume_builder_placement/assets/131134704/68999ca5-d384-4a84-9571-7092dbfac89f
+
+
+
+
+## Work Video
+
 https://drive.google.com/drive/folders/1nXvU8VCKY1yX9s-5jo5RiQqpZFoiwhdr?usp=sharing
 
 ## Screenshot 📱
