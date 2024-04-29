@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -93,15 +94,50 @@ class _AddResumeState extends State<AddResume> {
                       top: 60,
                       child: IconButton(
                           onPressed: () async {
-                            ImagePicker img = ImagePicker();
-                            XFile? file =
-                                await img.pickImage(source: ImageSource.camera);
-                            file == null
-                                ? null
-                                : resumeController.file = File(file.path);
-                            file == null ? null : tmpImg = File(file.path);
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Choose Method ?"),
+                                    actions: [
+                                      OutlinedButton(
+                                          onPressed: () async {
+                                            Navigator.pop(context);
+                                            ImagePicker img = ImagePicker();
+                                            XFile? file = await img.pickImage(
+                                                source: ImageSource.camera);
+                                            file == null
+                                                ? null
+                                                : resumeController.file =
+                                                    File(file.path);
+                                            file == null
+                                                ? null
+                                                : tmpImg = File(file.path);
+                                          },
+                                          child: const Text("Camera")),
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            Navigator.pop(context);
+                                            ImagePicker img = ImagePicker();
+                                            XFile? file = await img.pickImage(
+                                                source: ImageSource.gallery);
+                                            file == null
+                                                ? null
+                                                : resumeController.file =
+                                                    File(file.path);
+                                            file == null
+                                                ? null
+                                                : tmpImg = File(file.path);
+                                          },
+                                          child: const Text("Gallery"))
+                                    ],
+                                  );
+                                });
                           },
-                          icon: const Icon(Icons.camera)))
+                          icon: const Icon(
+                            Icons.camera,
+                            color: Colors.white,
+                          )))
                 ],
               ),
               const SizedBox(height: 10),
